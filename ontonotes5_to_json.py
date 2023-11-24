@@ -86,12 +86,18 @@ def main():
                 tgz_fp.getmembers()
             )
         ))
+        cnt = 0
         number_of_members = len(onf_names)
         err_msg = 'There are no labeled texts with *.onf extension in the ' \
                   '"{0}"!'.format(src_file_name)
         assert number_of_members > 0, err_msg
         for cur_name in tqdm(onf_names):
             language = get_language_by_filename(cur_name)
+            if language != 'chinese':
+                continue
+            if cnt > 10:
+                break
+            cnt += 1
             tmp_name = None
             try:
                 with NamedTemporaryFile(mode='w', delete=False) as tmp_fp:
